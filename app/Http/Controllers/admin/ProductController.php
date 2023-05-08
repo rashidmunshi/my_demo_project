@@ -19,12 +19,14 @@ class ProductController extends Controller
     {
         return view('Admin.addproduct');
     }
+    public function products()
+    {
+        return view('Admin.product');
+    }
 
     public function insert(Request $request)
     {
-        // $product_type = new Product_type;
-        // $product_type->name = $request->product_type;
-        // $product_type->save();
+        // dd($request->all());
         $product_type = Product_type::firstOrCreate([
             'name' => $request->product_type
         ]);
@@ -64,31 +66,24 @@ class ProductController extends Controller
                 $multiple->save();
             }
         }
-
-
         if ($request->product_type == 'single_varient') {
-            dd($request->all);
-
             if ($request->type == 'size') {
-                // dd($multiprice);
                 $size = $request->size_select;
-
-                $lastinsertedid="";
-                foreach ($size as $key => $sizes) {
-
-                    if($key == 0){
+                foreach ($size as $key => $value1) {
+                    if ($key == '0') {
                         $sizeinsert = new Size;
-                        $sizeinsert->size = $sizes;
+                        $sizeinsert->size = $value1;
                         $sizeinsert->save();
-                        $lastinsertedid= $sizeinsert->id;
-                    }else{
-                        $multipleinsert = new Product_by_color;
-                        $multipleinsert->product_id = $product->id;
-                        $multipleinsert->size_id = $lastinsertedid;
-                        $multipleinsert->price = $request->price1[$key];
-                        $multipleinsert->qty = $request->quantity1[$key];
-                        $multipleinsert->save();
                     }
+                }
+                $price1 = $request['price1'];
+                foreach ($price1 as $key => $value) {
+                    $multiinsert = new Product_by_color;
+                    $multiinsert->product_id = $product->id;
+                    $multiinsert->size_id = $sizeinsert->id;
+                    $multiinsert->price = $value;
+                    $multiinsert->qty = $request['quantity1'][$key];
+                    $multiinsert->save();
                 }
             }
         }

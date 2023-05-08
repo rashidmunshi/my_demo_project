@@ -15,9 +15,9 @@ class CreateProductImagesTable extends Migration
     {
         Schema::create('product_images', function (Blueprint $table) {
             $table->id();
-            $table->integer('product_id')->unsigned()->index()->comment('Refer products table');
-            $table->integer('color_id')->unsigned()->index()->comment('Refer colors table');
-            $table->string('images');
+            $table->integer('product_id')->unsigned()->index()->comment('Refer add_products table');
+            $table->string('image_link');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

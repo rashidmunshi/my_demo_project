@@ -10,7 +10,7 @@
                     @if(Session::has('message'))
                     <p id="message" class="alert {{ Session::get('alert-class', 'alert-warning') }}">{{ Session::get('message') }}</p>
                     @endif
-                    <h4 class="fs-4">Change Password</h4>
+                    <h4 class="fs-4 mb-3">Change Password</h4>
                     <form action="{{ route('admin.passwordupdate') }}" method="POST">
                         @csrf
                         <div class="form-group">

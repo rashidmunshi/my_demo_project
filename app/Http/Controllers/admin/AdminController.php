@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Traits\ImageUpload;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,9 +13,8 @@ use Illuminate\Support\Facades\Session;
 
 class AdminController extends Controller
 {
-    // function __construct(){
-    //     $this->middleware('auth');
-    // }
+
+    use ImageUpload;
     public function dashboard()
     {
         return view('dashboard');
@@ -30,13 +30,14 @@ class AdminController extends Controller
             'password' => 'required'
         ]);
         if (Auth::attempt($request->only('email', 'password'))) {
-            if(Auth::user()->role == 0){
+            if (Auth::user()->role == 0) {
                 Session::flash('message', 'user login succesfully');
                 return redirect()->route('dashboard');
-            }else{
+            } else {
                 return redirect()->route('home');
             }
         } else {
+            Session::flash('user_message', 'email and password does not match');
             return redirect()->route('login');
         }
     }
@@ -86,21 +87,15 @@ class AdminController extends Controller
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->fullname = $request->fullname;
-        if ($request->hasFile('image')) {
-            $file_path = 'upload/image' . $user->image;
-            if (File::exists($file_path)) {
-                File::delete($file_path);
-            }
-            $file = $request->file('image');
-            $user->image = time() . '.' . $file->getClientOriginalExtension();
-            $file->move('upload/image', $user->image);
-        }
+        $image = $this->uploadImage(public_path('upload/image'), $request, 'image');
+        $user->image = $image['data'];
         $user->update();
+
         Session::flash('message', 'profile updated successfully');
         return redirect()->route('dashboard');
     }
     public function home()
     {
-       return view('home');
+        return view('home');
     }
 }

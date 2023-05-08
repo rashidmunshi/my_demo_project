@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('assets/css/app.min.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('assets/libs/flatpickr/flatpickr.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('assets/css/icons.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('assets/libs/datatables/dataTables.bootstrap4.css') }}" type="text/css">
@@ -78,7 +79,7 @@
                 </span>
                 <span class="logo-sm">
                     <!-- <span class="logo-sm-text-dark">U</span> -->
-                    <img src="assets/images/logo-sm.png" alt="" height="24">
+                    <img src="{{ asset('assets/images/logo-sm.png') }}" alt="" height="24">
                 </span>
             </a>
         </div>

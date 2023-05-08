@@ -18,12 +18,12 @@
                     <li>
                         <a href="javascript: void(0);">
                             <i class="fab fa-product-hunt"></i>
-                            <span>product</span>
+                            <span>Product</span>
                             <span class="menu-arrow"></span>
                         </a>
                         <ul class="nav-second-level" aria-expanded="false">
                             <li>
-                                <a href="{{ route('admin.addproduct') }}">Admin Product</a>
+                                <a href="{{ url('/product/products') }}">Admin Product</a>
                             </li>
                         </ul>
                     </li>

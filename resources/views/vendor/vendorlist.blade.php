@@ -8,21 +8,22 @@
 @if(Session::has('message'))
 <p id="message" class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
 @endif
-
+@if(Session::has('success_message'))
+<p id="success_message" class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('success_message') }}</p>
+@endif
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
-            <h4 class="page-title">Datatables</h4>
+            <h4 class="page-title">Vendors</h4>
         </div>
     </div>
 </div>
-<!-- end page title -->
-<a href="{{ route('register') }}" class="btn btn-primary">Add</a>
+
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title">Basic Data Table</h4>
+                <a href="{{ route('register') }}" class="btn btn-primary d-inline float-right mb-3">Add</a>
                 <table id="basic-datatable" class="table dt-responsive nowrap">
                     <thead>
                         <tr>
@@ -34,9 +35,9 @@
                             <th>action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="xyz">
                         @foreach ($user as $key=>$users)
-                        <tr>
+                        <tr class="abc">
                             <td>{{ $key +1 }}</td>
                             <td>{{ $users->fullname }}</td>
                             <td>{{ $users->email }}</td>
@@ -48,8 +49,8 @@
                             </td>
                             <td><img src="{{ asset('vendor/image/' .$users->image) }}" alt="" width="70px"></td>
                             <td>
-                                <a href="{{ url('/vendor/edit/'. $users->id)}}" class="ladda-button btn btn-success" data-style="expand-right">update</a>
-                                <button class="ladda-button btn btn-danger btn_click" data-id="{{$users->id}}" class="btn btn-danger sa-warning"  data-style="slide-left">Delete</button>
+                                <a href="{{ url('/vendor/edit_vendor/'. $users->id)}}" class="ladda-button btn btn-success" data-style="zoom-out"><i class="fas fa-edit" ></i></a>
+                                <button class="ladda-button btn btn-danger btn_click" data-id="{{$users->id}}" class="btn btn-danger sa-warning" data-style="slide-left"><i class="fa fa-trash" aria-hidden="true" title="Delete"></i></button>
                             </td>
                         </tr>
                         @endforeach
@@ -60,43 +61,4 @@
     </div><!-- end col-->
 </div>
 @endsection
-{{-- @section('script') --}}
-
-
-{{-- <script>
-$(".btn_click").click(function() {
-    var id = $(this).attr('data-id');
-    Swal.fire({
-        title: "Delete?"
-        , text: "Please ensure and then confirm!"
-        , type: "warning"
-        , showCancelButton: !0
-        , confirmButtonText: "Yes, delete it!"
-        , cancelButtonText: "No, cancel!"
-        , reverseButtons: !0
-    }).then((result) => {
-        if (result['isConfirmed']) {
-            $.ajax({
-                url: "{{url('delete/user')}}/" + id
-                , type: 'POST'
-                , DataType: 'json'
-                , data: {
-                    "_token": $('meta[name="csrf-token"]').attr('content'),
-                }
-                , success: function(response) {
-                    swal.fire("Done!", response.message, "success");
-                    setTimeout(function() {
-                        location.reload();
-                    }, 1000);
-                }
-                , error: function(error) {
-                    swal.fire("Error!", error.message, "error");
-                }
-            });
-        }
-    })
-});
-</script> --}}
-{{-- @endsection --}}
-
 

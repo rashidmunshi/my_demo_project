@@ -5,39 +5,41 @@
     <div class="row justify-content-center">
         <div class="col-8">
             <div class="card">
+                {{-- @if(Session::has('message'))
+                <p id="message" class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                @endif --}}
                 <div class="card-body">
                     <h1 class="text-center mb-2">Edit Vendor</h1>
-                    <form action="{{ url('/vendor/edit/'.$user->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ url('/vendor/update/'.$user->id) }}" method="POST" enctype="multipart/form-data" data-parsley-validate="">
                         @csrf
                         <div class="form-floating mb-3">
                             <label>First-name</label>
-                            <input type="text" value="{{ $user->first_name }}" name="first_name" class="form-control" placeholder="First_name">
-                            <span class="text-danger">{{ $errors->first('first_name') }}</span>
+                            <input type="text" value="{{old('first_name', $user->first_name)}}" name="first_name" class="form-control" placeholder="First_name" required data-parsley-required-message="Please insert your first name">
                         </div>
                         <div class="form-floating mb-3">
                             <label>Last-name</label>
-                            <input type="text" value="{{ $user->last_name }}" name="last_name" class="form-control" placeholder="Last-name">
-                            <span class="text-danger">{{ $errors->first('last_name') }}</span>
+                            <input type="text" value="{{ old('last_name', $user->last_name) }}" name="last_name" class="form-control" placeholder="Last-name" required data-parsley-required-message="Please insert your last name">
                         </div>
                         <div class="form-floating mb-3">
                             <label>Fullname</label>
-                            <input type="text" value="{{ $user->fullname }}" name="fullname" class="form-control" placeholder="Fullname">
-                            <span class="text-danger">{{ $errors->first('fullname') }}</span>
+                            <input type="text" value="{{ old('fullname', $user->fullname) }}" name="fullname" class="form-control" placeholder="Fullname" required data-parsley-required-message="Please insert your full name">
                         </div>
                         <div class="form-floating mb-3">
                             <label>Email-address</label>
-                            <input type="email" name="email" value="{{ $user->email }}" class="form-control" placeholder="name@example.com" disabled>
+                            <input type="email" name="email" value="{{ old('email', $user->email) }}" class="form-control" placeholder="name@example.com" data-parsley-type="email" data-parsley-type-message="must be a valid email address" @if ($user->email==old('email'))
+                            return true;
+                            @endif>
+                            <span class="alert-class alert-danger" id="message">{{ $errors->first('email') }}</span>
                         </div>
-                        <div class="custom-control custom-switch mb-3">
-                            <input type="checkbox" name="status" class="custom-control-input" id="customSwitch1" value="1" {{ ($user->status == 1 ? ' checked' : '')}}>
-                            <label class="custom-control-label" for="customSwitch1">Status</label>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="file" id="image" name="image" class="form-control">
+                        <div class="input-group">
+                            <input type="file" id="image" value="{{ $user->image }}" name="image" class="form-control">
                             <label class="input-group-text">Upload</label>
                         </div>
-                        <button type="submit"  class="ladda-button btn btn-primary" data-style="expand-right">update</button>
-                        <a href="{{ route('list') }}" class="btn btn-danger">cancle</a>
+                        <div class="mb-3">
+                            <img src="{{ asset('vendor/image/'.$user->image) }}" id="image_view" width="100px" alt="">
+                        </div>
+                        <button type="submit" class="ladda-button btn btn-success" data-style="expand-right">update</button>
+                        <a href="{{ route('list') }}" class="btn btn-danger">cancel</a>
                     </form>
                 </div>
             </div>
